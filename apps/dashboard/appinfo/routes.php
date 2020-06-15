@@ -24,5 +24,6 @@
 return [
 	'routes' => [
 		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
 	]
 ];

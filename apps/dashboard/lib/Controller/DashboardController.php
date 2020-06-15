@@ -23,13 +23,16 @@
 
 namespace OCA\Dashboard\Controller;
 
+use OCA\Dashboard\AppInfo\Application;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IPanel;
 use OCP\Dashboard\RegisterPanelEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 
@@ -41,19 +44,27 @@ class DashboardController extends Controller {
 	private $eventDispatcher;
 	/** @var IManager */
 	private $dashboardManager;
+	/** @var IConfig */
+	private $config;
+	/** @var string */
+	private $userId;
 
 	public function __construct(
 		$appName,
 		IRequest $request,
 		IInitialStateService $initialStateService,
 		IEventDispatcher $eventDispatcher,
-		IManager $dashboardManager
+		IManager $dashboardManager,
+		IConfig $config,
+		$userId
 	) {
 		parent::__construct($appName, $request);
 
 		$this->inititalStateService = $initialStateService;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dashboardManager = $dashboardManager;
+		$this->config = $config;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -64,7 +75,7 @@ class DashboardController extends Controller {
 	public function index(): TemplateResponse {
 		$this->eventDispatcher->dispatchTyped(new RegisterPanelEvent($this->dashboardManager));
 
-		$dashboardManager = $this->dashboardManager;
+		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', 'calendar,recommendations,talk,mail'));
 		$panels = array_map(function (IPanel $panel) {
 			return [
 				'id' => $panel->getId(),
@@ -72,13 +83,24 @@ class DashboardController extends Controller {
 				'iconClass' => $panel->getIconClass(),
 				'url' => $panel->getUrl()
 			];
-		}, $dashboardManager->getPanels());
+		}, $this->dashboardManager->getPanels());
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $panels);
+		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
 
 		return new TemplateResponse('dashboard', 'index');
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @param string $layout
+	 * @return JSONResponse
+	 */
+	public function updateLayout(string $layout): JSONResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
+		return new JSONResponse(['layout' => $layout]);
 	}
 }
