@@ -38,7 +38,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\StringType;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

@@ -34,7 +34,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OC\App\InfoParser;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;

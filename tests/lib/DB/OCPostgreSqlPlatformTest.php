@@ -24,7 +24,7 @@ namespace Test\DB;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 
 /**
  * Class OCPostgreSqlPlatformTest

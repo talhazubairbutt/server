@@ -35,7 +35,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;

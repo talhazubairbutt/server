@@ -42,7 +42,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;

@@ -28,7 +28,7 @@
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;

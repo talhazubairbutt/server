@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\SimpleMigrationStep;

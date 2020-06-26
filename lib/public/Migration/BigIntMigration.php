@@ -23,7 +23,7 @@
 
 namespace OCP\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use OCP\DB\ISchemaWrapper;
 
 /**

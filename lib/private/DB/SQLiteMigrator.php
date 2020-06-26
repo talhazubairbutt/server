@@ -29,7 +29,7 @@ namespace OC\DB;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\BigIntType;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 
 class SQLiteMigrator extends Migrator {
 
