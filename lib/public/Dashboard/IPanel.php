@@ -63,6 +63,7 @@ interface IPanel {
 
 	/**
 	 * Execute panel bootstrap code like loading scripts and providing initial state
+	 * @since 20.0.0
 	 */
 	public function load(): void;
 }
