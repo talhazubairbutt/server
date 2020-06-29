@@ -36,6 +36,8 @@ use OCP\IContainer;
 use Pimple\Container;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionFunction;
+use ReflectionParameter;
 
 /**
  * Class SimpleContainer
@@ -120,6 +122,20 @@ class SimpleContainer extends Container implements IContainer {
 			return $object;
 		}
 		throw new QueryException('Could not resolve ' . $name . '!');
+	}
+
+	public function injectFn(callable $fn): void {
+		$reflected = new ReflectionFunction(Closure::fromCallable($fn));
+		$fn(...array_map(function(ReflectionParameter $param) {
+			if (($type = $param->getType()) !== null) {
+				try {
+					return $this->query($type->getName());
+				} catch (QueryException $ex) {
+					// Ignore and try name as well
+				}
+			}
+			return $this->query($param->getName());
+		}, $reflected->getParameters()));
 	}
 
 	/**

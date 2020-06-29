@@ -37,6 +37,7 @@ namespace OCP;
 
 use Closure;
 use OCP\AppFramework\QueryException;
+use Throwable;
 
 /**
  * Class IContainer
@@ -68,6 +69,20 @@ interface IContainer {
 	 * @since 6.0.0
 	 */
 	public function query(string $name, bool $autoload = true);
+
+	/**
+	 * Invoke the given callable and inject all parameters based on their types
+	 * and names
+	 *
+	 * Note: when used with methods, make sure they are public. Then you can pass
+	 * e.g. [$obj, 'method'] and [this, 'foo'].
+	 *
+	 * @param callable $fn
+	 * @throws QueryException if at least one of the parameter can't be resolved
+	 * @throws Throwable any error the function invocation might cause
+	 * @since 20.0.0
+	 */
+	public function injectFn(callable $fn): void;
 
 	/**
 	 * A value is stored in the container with it's corresponding name

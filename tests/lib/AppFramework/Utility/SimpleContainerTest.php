@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * ownCloud - App Framework
  *
@@ -66,6 +68,32 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->container = new SimpleContainer();
 	}
 
+	public function testInjectFnNotRegistered(): void {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
+
+		$this->container->injectFn(static function(IInterfaceConstructor $p1): void {});
+	}
+
+	public function testInjectFnByType(): void {
+		$this->container->registerService(IInterfaceConstructor::class, function() {
+			$this->addToAssertionCount(1);
+			return new class implements IInterfaceConstructor {};
+		});
+
+		$this->container->injectFn(static function(IInterfaceConstructor $p1): void {});
+
+		// Nothing to assert. No errors means everything is fine.
+		$this->addToAssertionCount(1);
+	}
+
+	public function testInjectFnByName(): void {
+		$this->container->registerParameter('test', 'abc');
+
+		$this->container->injectFn(static function($test): void {});
+
+		// Nothing to assert. No errors means everything is fine.
+		$this->addToAssertionCount(1);
+	}
 
 	public function testRegister() {
 		$this->container->registerParameter('test', 'abc');
@@ -73,7 +101,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 
-	
+
 	public function testNothingRegistered() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
@@ -81,7 +109,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 
-	
+
 	public function testNotAClass() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
@@ -190,7 +218,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertEquals('abc', $this->container->query($query));
 	}
 
-	
+
 	public function testConstructorComplexNoTestParameterFound() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
