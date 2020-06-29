@@ -78,11 +78,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$logger = $this->getLogger(
-			$context->getAppContainer()->query(IConfig::class),
-			$context->getAppContainer()->query(ILogger::class),
-			$context->getAppContainer()->query(ILogFactory::class)
-		);
+		/** @var ILogger $logger */
+		$logger = $context->getAppContainer()->injectFn([$this, 'getLogger']);
 
 		/*
 		 * TODO: once the hooks are migrated to lazy events, this should be done
@@ -91,7 +88,7 @@ class Application extends App implements IBootstrap {
 		$this->registerHooks($logger, $context->getServerContainer());
 	}
 
-	private function getLogger(IConfig $config,
+	public function getLogger(IConfig $config,
 							   ILogger $logger,
 							   ILogFactory $logFactory): ILogger {
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
