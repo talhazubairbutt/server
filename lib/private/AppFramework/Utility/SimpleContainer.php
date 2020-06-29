@@ -124,9 +124,9 @@ class SimpleContainer extends Container implements IContainer {
 		throw new QueryException('Could not resolve ' . $name . '!');
 	}
 
-	public function injectFn(callable $fn): void {
+	public function injectFn(callable $fn) {
 		$reflected = new ReflectionFunction(Closure::fromCallable($fn));
-		$fn(...array_map(function(ReflectionParameter $param) {
+		return $fn(...array_map(function(ReflectionParameter $param) {
 			if (($type = $param->getType()) !== null) {
 				try {
 					return $this->query($type->getName());

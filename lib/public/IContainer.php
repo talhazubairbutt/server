@@ -80,9 +80,10 @@ interface IContainer {
 	 * @param callable $fn
 	 * @throws QueryException if at least one of the parameter can't be resolved
 	 * @throws Throwable any error the function invocation might cause
+	 * @return mixed
 	 * @since 20.0.0
 	 */
-	public function injectFn(callable $fn): void;
+	public function injectFn(callable $fn);
 
 	/**
 	 * A value is stored in the container with it's corresponding name
