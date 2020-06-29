@@ -74,8 +74,11 @@ interface IContainer {
 	 * Invoke the given callable and inject all parameters based on their types
 	 * and names
 	 *
-	 * Note: when used with methods, make sure they are public. Then you can pass
-	 * e.g. [$obj, 'method'] and [this, 'foo'].
+	 * Note: when used with methods, make sure they are public or use \Closure::fromCallable
+	 * to wrap the private method call, e.g.
+	 *  * [$obj, 'publicMethod']
+	 *  * [$this, 'publicMethod']
+	 *  * [$this, 'privateMethod']
 	 *
 	 * @param callable $fn
 	 * @throws QueryException if at least one of the parameter can't be resolved
