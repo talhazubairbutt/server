@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\AppInfo;
 
+use Closure;
 use OC\Files\Filesystem;
 use OC\Files\Node\File;
 use OC\Group\Manager;
@@ -79,7 +80,9 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		/** @var ILogger $logger */
-		$logger = $context->getAppContainer()->injectFn([$this, 'getLogger']);
+		$logger = $context->getAppContainer()->injectFn(
+			Closure::fromCallable([$this, 'getLogger'])
+		);
 
 		/*
 		 * TODO: once the hooks are migrated to lazy events, this should be done
@@ -88,7 +91,7 @@ class Application extends App implements IBootstrap {
 		$this->registerHooks($logger, $context->getServerContainer());
 	}
 
-	public function getLogger(IConfig $config,
+	private function getLogger(IConfig $config,
 							   ILogger $logger,
 							   ILogFactory $logFactory): ILogger {
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
